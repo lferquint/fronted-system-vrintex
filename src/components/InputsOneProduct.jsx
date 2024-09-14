@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef} from "react"
 
 function InputsOneProduct(){
     const [products, setProducts] = useState([])
@@ -8,30 +8,76 @@ function InputsOneProduct(){
     const [colors, setColors] = useState()
     const [colorSelected, setColorSelected] = useState('')
     const [missingInformation, setMissingInformation] = useState()
+    const [firstRender, setFirstRender] = useState(false)
+    const prevBrand = useRef()
+    const prevColor = useRef()
     function handleSelectTypeProduct(e){
         setProductSelected(e.target.value)
     }
     function handleSelectBrandProduct(e){
         setBrandSelected(e.target.value)
     }
-    useEffect(()=>{  
-        fetch('http://localhost:3000/api/getTypeProduct').then((data)=>{return data.json()}).then((data2)=>{ setProducts(data2); setProductSelected(data2[0].id_type_product)})
-    }, [])
-    useEffect(()=>{  
-        if(productSelected){
-            fetch(`http://localhost:3000/api/getModels/${productSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setBrands(data2); setBrandSelected(data2[0].id_model) })
-        }
-    }, [productSelected])
-    useEffect(()=>{  
-        if(brandSelected){
-            fetch(`http://localhost:3000/api/getColorsProduct/${brandSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setColors(data2); setColorSelected(data2[0].color_name) })
-        }
-    }, [brandSelected])
+    // useEffect(()=>{  
+    //     fetch('http://localhost:3000/api/getTypeProduct').then((data)=>{return data.json()}).then((data2)=>{ setProducts(data2); setProductSelected(data2[0].id_type_product)})
+    // }, [])
+    // useEffect(()=>{  
+    //     if(productSelected){
+    //         fetch(`http://localhost:3000/api/getModels/${productSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setBrands(data2); setBrandSelected(data2[0].id_model) })
+    //     }
+    // }, [productSelected])
+    // useEffect(()=>{  
+    //     if(brandSelected){
+    //         fetch(`http://localhost:3000/api/getColorsProduct/${brandSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setColors(data2); setColorSelected(data2[0].color_name) })
+    //     }
+    // }, [brandSelected])
+    // useEffect(()=>{
+    //     if(colorSelected && brandSelected){
+    //         fetch(`http://localhost:3000/api/infoAboutProduct/${brandSelected}/${colorSelected}`).then(data => data.json()).then(data2 =>{ console.log(colorSelected, brandSelected); if(data2[0].price){setMissingInformation(data2)} })
+    //     }
+    // }, [colorSelected, brandSelected])
     useEffect(()=>{
-        if(colorSelected && brandSelected){
-            fetch(`http://localhost:3000/api/infoAboutProduct/${brandSelected}/${colorSelected}`).then(data => data.json()).then(data2 =>{ console.log(colorSelected, brandSelected); if(data2[0].price){setMissingInformation(data2)} })
+        if(!missingInformation){
+            if(!productSelected){
+                fetch('http://localhost:3000/api/getTypeProduct').then((data)=>{return data.json()}).then((data2)=>{ setProducts(data2); setProductSelected(data2[0].id_type_product)})
+            }
+            if(productSelected && !brandSelected){
+                productSelected && fetch(`http://localhost:3000/api/getModels/${productSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setBrands(data2); setBrandSelected(data2[0].id_model); prevBrand.current = data2[0].id_model })
+            }
+            if( brandSelected && !colorSelected){
+                brandSelected && fetch(`http://localhost:3000/api/getColorsProduct/${brandSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setColors(data2); setColorSelected(data2[0].color_name); prevColor.current = data2[0].color_name })
+            }
+            if( brandSelected && colorSelected){
+                colorSelected && fetch(`http://localhost:3000/api/infoAboutProduct/${brandSelected}/${colorSelected}`).then(data => data.json()).then(data2 =>{ if(data2[0].price){setMissingInformation(data2)} })
+                setFirstRender(true)
+            }
         }
-    }, [colorSelected, brandSelected])
+
+    }, [productSelected, brandSelected, colorSelected, missingInformation])
+
+    useEffect(()=>{
+        if(firstRender){
+            fetch(`http://localhost:3000/api/getModels/${productSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setBrands(data2); setBrandSelected(data2[0].id_model); console.log('Product', productSelected) })
+            
+        }
+    }, [productSelected, firstRender])
+    useEffect(()=>{
+        if(firstRender){
+
+            fetch(`http://localhost:3000/api/getColorsProduct/${brandSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setColors(data2); setColorSelected(data2[0].color_name); console.log('Brand', brandSelected) })
+            
+        }
+    }, [brandSelected, firstRender])
+
+    useEffect(()=>{
+        if(firstRender){
+            if(brandSelected != prevBrand.current && colorSelected != prevColor.current){
+                fetch(`http://localhost:3000/api/infoAboutProduct/${brandSelected}/${colorSelected}`).then(data => data.json()).then(data2 =>{ console.log(data2, 'Ya we', brandSelected, colorSelected); if(data2[0].price){setMissingInformation(data2); } })
+                prevBrand.current = brandSelected
+                prevColor.current = colorSelected
+            }
+            // console.log('Color', brandSelected, colorSelected)
+        }
+    }, [brandSelected, colorSelected, firstRender])
 
     return (
         <div>
