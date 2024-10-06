@@ -46,8 +46,7 @@ function App() {
     })
 
     // get values of condition inputs
-    const inputsConditions = a.filter((element)=>{return element.className == 'additional_info_input'})
-    console.log(inputsConditions)
+    const inputsConditions = a.filter((element)=>{return element.className == 'additional_info_input condition'})
     let conditions = inputsConditions.map((obj)=>{return obj.value})
     conditions = conditions.filter((element)=>{return element != ''})
 
@@ -81,8 +80,10 @@ function App() {
     })
 
     // Create obj to send to the API pdf 
-    const objToSend = new Data( {company: values[1], nameClient: values[0], place: values[3], tel: values[2]}, finalArray, values[values.length - 1], conditions , 'Elias Moreno')
+    const objToSend = new Data( {company: values[1], nameClient: values[0], place: values[3], tel: values[2]}, finalArray, values[values.length - 4], conditions , 'Elias Moreno')
     // Send data
+
+
     fetch('http://localhost:3000/generatePdf', {
       method: 'post', 
       body: JSON.stringify(objToSend), 

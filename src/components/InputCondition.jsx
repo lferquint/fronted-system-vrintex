@@ -16,7 +16,7 @@ function InputConditions ({ defaultValue }){
     return (
         <>
             <div className="condition">
-                <input placeholder={inputValue} className="additional_info_input" disabled={disabled} onChange={handleChange} value={disabled ? '' : inputValue } type="text"></input>
+                <input placeholder={inputValue} className="additional_info_input condition" disabled={disabled} onChange={handleChange} value={disabled ? '' : inputValue } type="text"></input>
                 <input className="disabled_button" style={{background: disabled ? 'green' : '#ff1858', color: 'white'}} type="button" value={disabled ? 'activar' : 'desactivar'} onClick={handleClick}></input>
             </div>
         </>
