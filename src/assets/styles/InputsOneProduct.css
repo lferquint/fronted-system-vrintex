@@ -1,0 +1,28 @@
+.inputsOneProduct{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+.inputContainer{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+}
+.inputContainer input, .inputContainer select{
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border-block: none;
+    border-left: 10px solid #ff1858;
+    color: white;
+    border-right: none;
+    margin-right: 10px;
+}
+.delete_product{
+    background: #ff1858 !important;
+    color: white;
+    border: 0px solid #ff1858 !important;
+}
+select option {
+    background: #2b2f39;
+}

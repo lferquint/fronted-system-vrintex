@@ -4,5 +4,60 @@
     box-sizing: border-box;
 }
 body{
-    background: rgb(30, 31, 55);
+    font-family: sans-serif;
+    color: white;
+    background: #2b2f39;
+}
+.principal_container{
+    padding: 15px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.principal_container h2{
+    margin-bottom: 10px;
+    margin-top: 80px;
+    text-decoration: underline 1.5px solid;
+    color: white;
+}
+.principal_container h3{
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+.add_product{
+    display: block;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #365a8c;
+    color: white;
+    border: 1px solid white;
+}
+.additional_info input{
+    padding: 5px;
+}
+.additional_info{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+.additional_info div{
+    display: flex;
+}
+.additional_info div .additional_info_input{
+    flex-grow: 1;
+}
+.send_button{
+    display: block;
+    padding: 7px 50px;
+    margin: 20px auto;
+    background: rgb(0, 110, 255);
+    color: white;
+    border: 2px solid white;
+    font-weight: bold;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.send_button:hover{
+    transform: scale(1.05);
 }
