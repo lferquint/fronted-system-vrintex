@@ -1,0 +1,18 @@
+.additional_info_input, .disabled_button{
+  padding: 10px;
+  background: rgba(255,255,255,0.04);
+  border-block: none;
+  border: none;
+  color: white;
+  margin-bottom: 5px;
+}
+.disabled_button{
+  cursor: pointer;
+  width: fit-content;
+}
+.additional_info_input{
+  width: 100%;
+}
+.condition{
+  display: flex;
+}

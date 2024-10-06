@@ -46,7 +46,8 @@ function App() {
     })
 
     // get values of condition inputs
-    const inputsConditions = a.filter((element)=>{return element.className == 'condition'})
+    const inputsConditions = a.filter((element)=>{return element.className == 'additional_info_input'})
+    console.log(inputsConditions)
     let conditions = inputsConditions.map((obj)=>{return obj.value})
     conditions = conditions.filter((element)=>{return element != ''})
 
@@ -81,7 +82,6 @@ function App() {
 
     // Create obj to send to the API pdf 
     const objToSend = new Data( {company: values[1], nameClient: values[0], place: values[3], tel: values[2]}, finalArray, values[values.length - 1], conditions , 'Elias Moreno')
-
     // Send data
     fetch('http://localhost:3000/generatePdf', {
       method: 'post', 
@@ -109,7 +109,6 @@ function App() {
         <div><h2>Productos:</h2></div>
         { productsCount.map((element)=>{return <InputsOneProduct key={element}/>}) }
         <input className="add_product" onClick={handleClick} type="button" value="Añadir producto +"/>
-        <div className="additional_info">
           <h2>Información adicional:</h2>            
           <h3 style={{display: 'block'}}>Tiempo de entrega:</h3>
           <input  style={{display: 'block'}} className="additional_info_input" type="text" placeholder="Tiempo de entrega"/>
@@ -119,7 +118,6 @@ function App() {
               return <InputCondition key={element.id_conditions} defaultValue={element.condition}/>
             })
           }
-        </div>
         <input style={{display: 'block'}} type="submit" className="send_button" value='Generar cotización'/>
       </form>
 

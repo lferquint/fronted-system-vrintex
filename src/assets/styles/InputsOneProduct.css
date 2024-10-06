@@ -1,13 +1,14 @@
 .inputsOneProduct{
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 .inputContainer{
     width: fit-content;
     display: flex;
     flex-direction: column;
     align-self: flex-end;
+    margin-bottom: 5px;
 }
 .inputContainer input, .inputContainer select{
     padding: 5px;
