@@ -1,4 +1,4 @@
-import '../assets/styles/inputs.css'
+import '../assets/styles/InputGeneral.css'
 function Input({ labelText, typeInput='text'}){
     return(
         <div>

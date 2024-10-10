@@ -1,5 +1,5 @@
 import { useState } from "react"
-import '../assets/styles/inputConditions.css'
+import '../assets/styles/InputConditions.css'
 
 function InputConditions ({ defaultValue }){
 

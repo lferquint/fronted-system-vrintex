@@ -28,13 +28,16 @@ body{
 }
 .add_product{
     display: block;
-    padding: 6px;
-    padding-left: 10px;
-    padding-right: 10px;
-    background: #365a8c;
+    padding: 10px 20px;
+    background: #2e5f95;
     color: white;
     border: none;
     border-block: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.add_product:hover{
+    transform: scale(1.05);
 }
 
 .additional_info{
@@ -51,14 +54,15 @@ body{
 }
 .send_button{
     display: block;
-    padding: 7px 50px;
+    padding: 10px 50px;
     margin: 20px auto;
-    background: #365a8c;
+    background: #2e5f95;
     color: white;
-    border: 2px solid white;
-    font-weight: bold;
+    border-block: none;
+    border: 0px solid white;
     transition: 0.2s;
     cursor: pointer;
+    font-size: 15px;
 }
 .send_button:hover{
     transform: scale(1.05);

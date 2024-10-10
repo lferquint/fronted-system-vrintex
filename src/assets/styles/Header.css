@@ -1,0 +1,25 @@
+header{
+  width: 100%;
+}
+header nav{
+  width: 100%;
+  background: #20252e;
+}
+header nav ul{
+  display: flex;
+  justify-content: center;
+}
+header nav ul li{
+  list-style: none;
+}
+header nav ul li a{
+  padding: 15px;
+  display: block;
+  text-decoration: none;
+  color: white;
+  transition: 0.2s;
+}
+header nav ul li a:hover{
+    background: rgba(255,255,255,0.1);
+    transform: scale(1.05);
+}

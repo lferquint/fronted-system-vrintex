@@ -23,6 +23,8 @@
     background: #ff1858 !important;
     color: white;
     border: 0px solid #ff1858 !important;
+    transition: 0.2s;
+    cursor: pointer;
 }
 select option {
     background: #2b2f39;
