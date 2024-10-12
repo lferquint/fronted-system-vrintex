@@ -8,3 +8,7 @@
   border-right: none;
   color: white;
 }
+.container_input_general label{
+  min-width: 180px !important;
+
+}
