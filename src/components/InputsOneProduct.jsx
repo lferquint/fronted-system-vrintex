@@ -84,7 +84,7 @@ function InputsOneProduct(){
     }, [productSelected, firstRender])
     useEffect(()=>{
         if(firstRender){
-
+            console.log(brandSelected)
             fetch(`http://localhost:3000/api/getColorsProduct/${brandSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setColors(data2); setColorSelected(data2[0].color_name); })
             
         }

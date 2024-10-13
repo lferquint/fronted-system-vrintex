@@ -51,7 +51,26 @@ function SecundaryDataSection(){
       body: objJson
     })
   }
-  function handleSubmitProvider(){
+  function handleSubmitProvider(e){
+    e.preventDefault()
+    const array = Array.from(e.target).filter((element)=>element.type != 'submit')
+    const values = array.map((element)=>element.value)
+
+    const objData = {
+      website: values[0], 
+      tel: values[1], 
+      email: values[2], 
+      companyName: values[3]
+    }
+    const objJson = JSON.stringify(objData)
+    fetch('http://localhost:3000/protected/addProvider', {
+      method:'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: objJson,
+    })
     
   }
 
@@ -76,20 +95,12 @@ function SecundaryDataSection(){
         <input type="submit" value="Agregar"/>
 
       </form>
-      <form onSubmit={handleSubmitProvider} style={{background: 'rgba(255,255,255,0.3)'}}>
-        <label>
-          Tipo de producto
-          <select>
-            {
-              typeProducts.map((typeProduct)=>{return <option value={typeProduct.id_type_product} key={typeProduct.id_type_product}>{typeProduct.type_product_name}</option>})
-            }
-          </select>
-        </label>
-        <Input labelText='Nombre del modelo' typeInput="text" />
-        <Input labelText='Descripción' typeInput="text" />
-        <Input labelText="Unidades" typeInput="text" ></Input>
-        <input type="submit" value="Agregar"/>
-
+      <form onSubmit={handleSubmitProvider} style={{background: 'rgba(255,255,255,0.1)'}}>
+            <Input labelText="Sitio web" typeInput="text"/>
+            <Input labelText="Telefono" typeInput="text"/>
+            <Input labelText="Email" typeInput="text"/>
+            <Input labelText="Nombre de la compañia" typeInput="text"/>
+            <input type="submit" value="Enviar"/>
       </form>
     </>
   )
