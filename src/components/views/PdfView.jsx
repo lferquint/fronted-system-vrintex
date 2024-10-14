@@ -3,6 +3,7 @@ import InputsOneProduct from "../InputsOneProduct"
 import { useState, useEffect } from "react"
 import Data from "../../utils/classPdf"
 import InputCondition from "../InputCondition"
+import createDescription from "../../utils/createDescription"
 
 function PdfView() {
   /* -- States -- */
@@ -20,15 +21,8 @@ function PdfView() {
     setProductsCount(newProductsCount)
   }
 
-  // function handleClickAddCondition(){
-  //   const lastItem = conditionsCount[conditionsCount.length - 1]
-  //   const newConditions = [...conditionsCount]
-  //   newConditions.push(lastItem + 1)
-  //   setConditionsCount(newConditions)
-  // }
-
   //Handle submit form
-  function handleSubmit(e){
+  async function handleSubmit(e){
     e.preventDefault()
 
     // list nodes to array
@@ -38,9 +32,25 @@ function PdfView() {
     const inputs = a.filter((element)=>{if(element.type != 'button' && element.type != 'submit' && element.className != 'condition'){return element.value}})
 
     // get input values
+    let idModel
+    inputs.forEach((element)=>{
+      if (element.type === 'select-one'){
+        if(element.name == 'modelProduct'){
+          idModel = element.value
+        }
+      }
+      return element.value
+    })
+    const special = await fetch(`http://localhost:3000/api/getColorsInStock/${idModel}`)
+    const decode = await special.json()
+    const arrayWithColors = decode.map((obj)=>obj.color_name)
+    console.log(arrayWithColors)
     const values = inputs.map((element)=>{
       if (element.type === 'select-one'){
-        return element[0].text
+        if(element[element.selectedIndex].text === 'A elegir'){
+          return arrayWithColors
+        }
+        return element[element.selectedIndex].text
       }
       return element.value
     })
@@ -67,22 +77,25 @@ function PdfView() {
       }
     } 
 
+
     //Array with the same structure to class Data
     let finalArray = arrayWithProducts.map((array)=>{
+      createDescription(array[5], [array[2], 'blue', 'green'])
       return { 
         nameProduct: array[0], 
         model: array[1], 
         amount: parseInt(array[3]),
         price: array[4], 
-        description: array[5],
-        units: array[6]
+        // description: array[5],
+        description: createDescription(array[5], array[2]),
+        units: array[6],
       }
     })
 
     // Create obj to send to the API pdf 
     const objToSend = new Data( {company: values[1], nameClient: values[0], place: values[3], tel: values[2]}, finalArray, values[values.length - 4], conditions , 'Elias Moreno')
     // Send data
-
+    console.log(objToSend)
 
     fetch('http://localhost:3000/generatePdf', {
       method: 'post', 

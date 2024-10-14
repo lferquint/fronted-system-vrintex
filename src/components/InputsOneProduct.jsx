@@ -84,7 +84,6 @@ function InputsOneProduct(){
     }, [productSelected, firstRender])
     useEffect(()=>{
         if(firstRender){
-            console.log(brandSelected)
             fetch(`http://localhost:3000/api/getColorsProduct/${brandSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setColors(data2); setColorSelected(data2[0].color_name); })
             
         }
@@ -131,6 +130,7 @@ function InputsOneProduct(){
                     {
                         colors && colors.map((objColor)=>{ return <option key={objColor.id_color} value={objColor.id_color}> {objColor.color_name} </option>})
                     }
+                    <option value='No importa'>A elegir</option>
                 </select>
             </div>
 
