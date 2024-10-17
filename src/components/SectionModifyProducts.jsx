@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useState } from "react"
-import SecundaryDataSection from "./SecundaryDataSection"
+import SecundaryData from "./SecundaryData"
 
 function BasicInput({value, label, disabled}){
   const [inputValue, setInputValue] = useState(value)
@@ -56,15 +56,20 @@ function SectionModifyProducts(){
     .then((data)=>{setListProducts(data)})
   }, [refresh])
   return(
-    <div>
-      {
-        listProducts.map((productObj)=>{
-          return <InputsModifyOnlyOneProduct refresh={refresh} setRefresh={setIsRefresh} key={productObj.id_product} objConfig={productObj} />
-        })
-      }
-      {/* <input type="button" value="Add product"/> */}
-    <SecundaryDataSection/>
-    </div>
+    <>
+      <div>
+        {
+          listProducts.map((productObj)=>{
+            return <InputsModifyOnlyOneProduct refresh={refresh} setRefresh={setIsRefresh} key={productObj.id_product} objConfig={productObj} />
+          })
+        }
+        {/* <input type="button" value="Add product"/> */}
+      </div>
+      <div>
+        <SecundaryData/>
+      </div>
+    </>
+
   )
 }
 export default SectionModifyProducts
