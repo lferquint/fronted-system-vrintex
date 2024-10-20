@@ -1,8 +1,20 @@
 import { useEffect } from "react"
 import { useState } from "react"
-import SectionModifyProducts from "../sectionModifyProducts"
+import SectionAddDataProduct from "../SectionAddDataProduct"
+import SectionModifyDataProducts from "../SectionModifyDataProduct"
+
 function ChangeRegistersView(){
   const [isLogged, setIsLogged] = useState(false)
+  const [pageFocus, setPageFocus] = useState('')
+  function handleClick(newPage){
+    setPageFocus(newPage)
+  }
+  const pages = {
+    Agregar_informacion_productos: <SectionAddDataProduct/>,
+    Modificar_informacion_productos: <SectionModifyDataProducts/>
+  }
+  const keys = Object.keys(pages)
+
   useEffect(()=>{
     fetch('http://localhost:3000/protected/isLogged', {
       method: 'POST',
@@ -13,10 +25,19 @@ function ChangeRegistersView(){
       }
     })
   })
+  if(!isLogged){
+    return <p>No tienes autorizacion para entrar a esta pagina </p>
+  }
   return (
     <>
-      {isLogged && <SectionModifyProducts/>}
-      {!isLogged && <p>No tienes autorizacion para entrar a esta pagina </p>}
+      <div>
+        <ul>
+          {keys.map((key)=>{ return <li key={key}> <a  style={{color: 'white'}} href="#" onClick={()=>{ handleClick(key) }}> {key} </a></li> })}
+        </ul>
+      </div>
+      <div>
+        { pages[pageFocus] }
+      </div> 
     </>
   )
 }

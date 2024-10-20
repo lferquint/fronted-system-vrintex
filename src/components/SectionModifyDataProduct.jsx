@@ -1,6 +1,5 @@
-import { useEffect } from "react"
 import { useState } from "react"
-import SecundaryData from "./SecundaryData"
+import { useEffect } from "react"
 
 function BasicInput({value, label, disabled}){
   const [inputValue, setInputValue] = useState(value)
@@ -47,29 +46,31 @@ function InputsModifyOnlyOneProduct({objConfig, refresh, setRefresh}){
   )
 }
 
-function SectionModifyProducts(){
+function SectionModifyDataProducts(){
+  const [refresh, setIsRefresh] = useState(false)
   const [listProducts, setListProducts] = useState([])
-  const [refresh, setIsRefresh] = useState('')
+
   useEffect(()=>{
     fetch('http://localhost:3000/api/getAllProducts')
     .then((data)=>data.json())
     .then((data)=>{setListProducts(data)})
   }, [refresh])
-  return(
+  return (
+
     <>
-      <div>
-        {
-          listProducts.map((productObj)=>{
-            return <InputsModifyOnlyOneProduct refresh={refresh} setRefresh={setIsRefresh} key={productObj.id_product} objConfig={productObj} />
-          })
-        }
-        {/* <input type="button" value="Add product"/> */}
-      </div>
-      <div>
-        <SecundaryData/>
-      </div>
+    <div>
+      {
+        listProducts[0] &&
+        listProducts.map((productObj)=>{
+          return <InputsModifyOnlyOneProduct refresh={refresh} setRefresh={setIsRefresh} key={productObj.id_product} objConfig={productObj} />
+        })
+      }
+      {
+        !listProducts[0] && <p>Aun no hay informacion, agrega registros en el apartado `Agregar_informacion_productos` </p>
+      }
+    </div>
     </>
 
   )
 }
-export default SectionModifyProducts
+export default SectionModifyDataProducts

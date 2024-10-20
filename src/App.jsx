@@ -16,8 +16,9 @@ function App() {
   }
 
   const keys = Object.keys(pages)
-  let keysPages ={}
-  keys.forEach((element)=>{ keysPages[element] = element})
+  // let keysPages ={}
+  // keys.forEach((element)=>{ keysPages[element] = element})
+  // console.log('keys pages:', keysPages)
 
   return (
   <>

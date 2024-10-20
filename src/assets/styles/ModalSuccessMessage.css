@@ -1,0 +1,18 @@
+.container_modal{
+  top: 50px;
+  position: fixed;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: center;
+  transition:0.75s ;
+}
+.modal_success_message{
+  width: 500px;
+  background: rgb(255, 255, 255);
+  padding: 30px;
+  color: rgb(24, 140, 41);
+  outline: 3px solid rgb(24, 140, 41);
+  backdrop-filter: blur(10px);
+  font-size: 20px;
+}
