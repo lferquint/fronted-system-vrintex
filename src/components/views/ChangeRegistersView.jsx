@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useState } from "react"
 import SectionAddDataProduct from "../SectionAddDataProduct"
 import SectionModifyDataProducts from "../SectionModifyDataProduct"
+import SectionDeleteRegisters from "../SectionDeleteRegisters"
 
 function ChangeRegistersView(){
   const [isLogged, setIsLogged] = useState(false)
@@ -11,7 +12,8 @@ function ChangeRegistersView(){
   }
   const pages = {
     Agregar_informacion_productos: <SectionAddDataProduct/>,
-    Modificar_informacion_productos: <SectionModifyDataProducts/>
+    Modificar_informacion_productos: <SectionModifyDataProducts/>,
+    Borrar_registros: <SectionDeleteRegisters/>
   }
   const keys = Object.keys(pages)
 
