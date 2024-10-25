@@ -1,0 +1,15 @@
+.input_label_left{
+  padding: 5px;
+  min-width: 300px;
+  border-left: #ff1858 10px solid;
+  margin: 5px 0;
+  background: rgba(255,255,255,0.04);
+  border-block: none;
+  border-right: none;
+  color: white;
+}
+.container_input_label_left label{
+  max-width: 200px;
+  min-width: 180px;
+  display: inline-block;
+}

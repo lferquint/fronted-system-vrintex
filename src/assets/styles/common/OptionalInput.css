@@ -1,4 +1,7 @@
-/* .additional_info_input, .disabled_button{
+.optionalInput{
+  display: flex;
+}
+.additional_info_input, .disabled_button{
   padding: 10px;
   background: rgba(255,255,255,0.04);
   border-block: none;
@@ -13,6 +16,3 @@
 .additional_info_input{
   width: 100%;
 }
-.condition{
-  display: flex;
-} */

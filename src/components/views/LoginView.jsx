@@ -1,5 +1,9 @@
 import { useState } from "react"
 import '../../assets/styles/LoginView.css'
+import PricipalTitle from "../common/PrincipalTitle"
+import FormBasic from "../layout/FormBasic"
+import InputLabelLeft from "../common/InputsLabelLeft"
+import InputSubmit from "../common/InputSubmit"
 
 function LoginView(){
   const [responseStatus, setResponseStatus] = useState(undefined)
@@ -32,22 +36,28 @@ function LoginView(){
   }
   return (
     <div className="loginViewContainer">
-      <h1> Login Root </h1>
-      <form onSubmit={handleSubmit}>
+      <PricipalTitle text='Login root' />
+      <FormBasic handleSubmit={handleSubmit}>
+        <InputLabelLeft labelText="Username"/>
+        <InputLabelLeft labelText="Password" typeInput="password"/>
+        <InputSubmit text='Iniciar sesion'/>
+      </FormBasic>
+      <div>
+        {
+          responseStatus===200 && <p>Iniciaste sesion correctamente</p>
+        }
+        {
+          (responseStatus !=200 && responseStatus!= undefined) && <p>Error al iniciar sesion</p>
+        }
+      </div>
+      {/* <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username</label>
         <input type="text" name="username" id="username" placeholder="username"/>
         <label htmlFor="password">Password </label>
         <input type="password" name="password" id="password" placeholder="password"/>
         <input type="submit" />
-        <div>
-          {
-            responseStatus===200 && <p>Iniciaste sesion correctamente</p>
-          }
-          {
-            (responseStatus !=200 && responseStatus!= undefined) && <p>Error al iniciar sesion</p>
-          }
-        </div>
-      </form>
+
+      </form> */}
     </div>
   )
 }

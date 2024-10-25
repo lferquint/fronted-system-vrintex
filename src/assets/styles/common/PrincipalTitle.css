@@ -1,0 +1,9 @@
+.principalTitle{
+  color: var(--font-color-theme-dark);
+  background: var(--principal-color);
+  text-align: center;
+  padding: 10px;
+  text-decoration: underline;
+  font-weight: 800;
+  font-size: 30px;
+}

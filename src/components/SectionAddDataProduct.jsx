@@ -1,75 +1,268 @@
+import Input from "./InputGeneral"
 import { useState } from "react"
-import SecundaryData from "./SecundaryData"
+import { useEffect } from "react"
+import '../assets/styles/SecundaryData.css'
+import ModalSuccessMessage from "./ModalSuccessMessage"
 
-// function BasicInput({value, label, disabled}){
-//   const [inputValue, setInputValue] = useState(value)
-//   function handleChange(e){
-//     setInputValue(e.target.value)
-//   }
-//   return (
-//     <div>
-//       <label htmlFor={label} style={{display:'block'}}>{label}</label>
-//       <input disabled={disabled} type="text" onChange={handleChange} value={inputValue} id={label}></input>
-//     </div>
-//   )
-// }
+function SubmitInput({text='Enviar'}){
+  return <input style={{cursor: 'pointer'}} type="submit" value={text} className="sDSendButton"/>
+}
 
-// function InputsModifyOnlyOneProduct({objConfig, refresh, setRefresh}){
-//   const [disabled, setDisabled] = useState(true)
-//   function handleUpdate(){
-//     setDisabled(!disabled)
-//   }
-//   function handleDelete(){
-//     fetch(`http://localhost:3000/protected/deleteProduct/${objConfig.id_product}`, {
-//       method: 'POST',
-//       credentials: 'include'
-//     })
-//     setRefresh(!refresh)
-//   }
-//   return (
-//     <>
-//     <div style={{display: 'flex', marginTop: '40px'}}>
-//       {<BasicInput disabled value={objConfig.type_product_name} label="Tipo de producto" />}
-//       {<BasicInput disabled value={objConfig.name_model} label="Model" />}
-//       {<BasicInput disabled= {disabled} value={objConfig.price} label="Precio"/>}
-//       {<BasicInput disabled= {disabled} value={objConfig.stock} label="Stock"/>}
-//       <input type="hidden" value={objConfig.id_product}/>
-//       <input onClick={handleUpdate} style={{alignSelf: 'flex-end', background:'blue'}} type="button" value="Actualizar" />
-//       <input onClick={handleDelete} style={{alignSelf: 'flex-end', background: 'red'}} type="button" value="Borrar" />
-//     </div>
-//     <div>
-//       {
-//         !disabled && <input type="button" value="Guardar"/>
-//       }  
-//     </div>    
-//     </>
-//   )
-// }
+function SecundaryDataSection(){
 
-function SectionAddDataProduct(){
-  const [refresh, setIsRefresh] = useState(false)
-  // const [listProducts, setListProducts] = useState([])
-  // const [refresh, setIsRefresh] = useState(false)
-  // useEffect(()=>{
-  //   fetch('http://localhost:3000/api/getAllProducts')
-  //   .then((data)=>data.json())
-  //   .then((data)=>{setListProducts(data)})
-  // }, [refresh])
-  return(
-    <>
-      {/* <div>
+  const [typeProducts, setTypeProducts] = useState([])
+  const [listColors, setListColors] = useState([])
+  const [listModels, setListModels] = useState([])
+  const [listProviders, setListProviders] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const [success, setSuccess] = useState(false)
+
+  useEffect(()=>{
+    fetch('http://localhost:3000/api/getTypeProduct')
+    .then((data)=>{
+      return data.json()
+    })
+    .then((data)=>{ setTypeProducts(data) })
+    fetch('http://localhost:3000/api/getAllColors').then((data)=>data.json()).then((data)=>{setListColors(data)})
+    fetch('http://localhost:3000/api/getAllModels').then((data)=>data.json()).then((data)=>{setListModels(data)})
+    fetch('http://localhost:3000/api/getAllProviders').then((data)=>data.json()).then((data)=>{setListProviders(data)})
+  }, [refresh])  
+
+  function handleTimeSuccessMessage(){
+    setTimeout(()=>{ setSuccess(false) }, 4000)
+  }
+
+  function handleSubmit(e){
+    e.preventDefault()
+    const array = Array.from(e.target).filter((element)=>element.type != 'submit')
+    const values = array.map((element)=>element.value)
+    const typeProduct = values[0] 
+    const dataJson = JSON.stringify({typeProduct: typeProduct})
+    fetch('http://localhost:3000/protected/addTypeProduct', {
+      method: 'POST',
+      credentials: 'include',
+      body: dataJson,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(()=>{setRefresh(!refresh); setSuccess(true); handleTimeSuccessMessage()})
+    
+  }
+
+  function handleSubmitModel(e){
+    e.preventDefault()
+    const inputs = Array.from(e.target).filter((element)=>{return element.type != 'submit'}) 
+    const values = inputs.map((input)=>{return input.value})
+
+    // model, description, idTypeProduct, units
+    const objNewModl = {
+      idTypeProduct: values[0],
+      model: values[1],
+      description: values[2], 
+      units: values[3]
+    }
+    const objJson = JSON.stringify(objNewModl)
+    fetch('http://localhost:3000/protected/addModel', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: objJson
+    }).then(()=>{setRefresh(!refresh); setSuccess(true); handleTimeSuccessMessage()})
+  }
+
+  function handleSubmitProvider(e){
+    e.preventDefault()
+    const array = Array.from(e.target).filter((element)=>element.type != 'submit')
+    const values = array.map((element)=>element.value)
+
+    const objData = {
+      website: values[0], 
+      tel: values[1], 
+      email: values[2], 
+      companyName: values[3]
+    }
+    const objJson = JSON.stringify(objData)
+    fetch('http://localhost:3000/protected/addProvider', {
+      method:'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: objJson,
+    }).then(()=>{setRefresh(!refresh); setSuccess(true); handleTimeSuccessMessage()})
+    
+    
+  }
+
+  function handleSubmitColors(e){
+    e.preventDefault()
+    console.log('Esto se está ejecutando????')
+    const colorJson = JSON.stringify({colorName: e.target[0].value})
+
+    fetch('http://localhost:3000/protected/addColor', {
+      method: 'POST', 
+      credentials: 'include',
+      body: colorJson,
+      headers: {
+        'Content-Type': 'application/json'
+      } 
+    }).then(()=>{setRefresh(!refresh); setSuccess(true); handleTimeSuccessMessage()})
+  }
+
+  function handleSubmitProduct(e){
+    e.preventDefault()
+    const inputs = Array.from(e.target).filter((element)=>element.type != 'submit') 
+    const values = inputs.map((element)=>element.value)
+    const objToSend = {
+      idModel: values[0],
+      idColor: values[1], 
+      stock: values[2], 
+      price: values[3], 
+      isStock: values[4], 
+      idProvider: values[5]
+    }
+    const objJson = JSON.stringify(objToSend)
+    fetch('http://localhost:3000/protected/addProduct', {
+      method: 'POST', 
+      credentials: 'include', 
+      body: objJson, 
+      headers: {
+        'Content-Type': 'application/json'
+      } 
+    }).then(()=>{setRefresh(!refresh); setSuccess(true); handleTimeSuccessMessage()})
+    
+  }
+  
+
+  return (
+    <div className="principal_container">
+    <h1 style={{textAlign:'center', textDecoration: 'underline', marginTop: '45px', width: '100%', background: '#ff1858', padding: '10px', fontWeight: 900}}>Añadir información sobre productos</h1>
+
+      {
+        success ? <ModalSuccessMessage/> : ''
+      }
       
-        {
-          listProducts.map((productObj)=>{
-            return <InputsModifyOnlyOneProduct refresh={refresh} setRefresh={setIsRefresh} key={productObj.id_product} objConfig={productObj} />
-          })
-        }
-      </div> */}
-      <div>
-        <SecundaryData refresh={refresh} setRefresh={setIsRefresh}/>
-      </div>
-    </>
+      {refresh}
+      <div className="secundaryData">
+        <div className="sDcontainerForm">
+          <h2>Agregar tipo de producto</h2>
+          <form onSubmit={handleSubmit} style={{}} >
+            <Input labelText="Nuevo tipo de producto" typeInput="text"/>
+            <SubmitInput/>
+          </form>
+        </div>
 
+        <div className="sDcontainerForm">
+          <h2>Agregar modelo</h2>
+          <form onSubmit={handleSubmitModel} style={{}}>
+            <label htmlFor="typeProduc_input">
+              Tipo de producto
+            </label>
+            <select id="typeProduc_input">
+              {
+                typeProducts.map((typeProduct)=>{return <option value={typeProduct.id_type_product} key={typeProduct.id_type_product}>{typeProduct.type_product_name}</option>})
+              }
+            </select>
+            <Input labelText='Nombre del modelo' typeInput="text" />
+            <Input labelText='Descripción' typeInput="text" />
+            <Input labelText="Unidades" typeInput="text" ></Input>
+            <SubmitInput/>
+          </form>
+        </div>
+
+        <div className="sDcontainerForm">
+          <h2>Agregar provedor</h2>
+          <form onSubmit={handleSubmitProvider} style={{}}>
+                <Input labelText="Sitio web" typeInput="text"/>
+                <Input labelText="Telefono" typeInput="text"/>
+                <Input labelText="Email" typeInput="text"/>
+                <Input labelText="Nombre de la compañia" typeInput="text"/>
+                <SubmitInput/>
+
+          </form>
+        </div>
+
+        <div className="sDcontainerForm">
+          <h2>Agregar color</h2>
+          <form onSubmit={handleSubmitColors}>
+            <Input labelText="Nuevo color" typeInput="text"/>
+            <SubmitInput/>
+
+          </form>
+        </div>
+
+        <div className="sDcontainerForm">
+        <h2>Agregar producto</h2>
+          <form onSubmit={handleSubmitProduct} >
+
+            <div>
+              <label htmlFor="model_input">
+                Modelo
+              </label>
+              <select id="model_input">
+                {
+                  listModels.map((obj)=>{
+                    return <option key={obj.id_model} value={obj.id_model}> {obj.name_model} </option>
+                  })
+                }
+              </select>
+            </div>
+
+
+            
+            <div>
+              <label htmlFor="color_input">
+                Color
+              </label>
+              <select id="color_input">
+                  {
+                    listColors.map((obj)=>{
+                      return <option key={obj.id_color} value={obj.id_color}> {obj.color_name} </option> 
+                    })
+                  }
+              </select>
+            </div>
+
+
+
+            <Input labelText='Cantidad en stock' />
+            <Input labelText='Precio' />
+
+
+            <div>
+              <label htmlFor="isStock_input">
+                Material de stock
+              </label>
+              <select id="isStock_input">
+                <option value="true">Sí</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            
+            <div>
+              <label htmlFor="provider_input">
+                Provedor
+              </label>
+              <select id="provider_input">
+                {
+                  listProviders.map((obj)=>{
+                    return <option key={obj.id_provider} value={obj.id_provider}> {obj.company_name} </option>
+                  })
+                }
+              </select>
+            </div>
+
+            <SubmitInput/>
+
+
+          </form>
+        </div>
+      </div>
+    </div>
+    
   )
 }
-export default SectionAddDataProduct
+
+export default SecundaryDataSection

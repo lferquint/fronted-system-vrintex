@@ -1,27 +1,30 @@
-import Input from "../InputGeneral"
+import Input from "../common/InputsLabelLeft"
 import InputsOneProduct from "../InputsOneProduct"
 import { useState, useEffect } from "react"
 import Data from "../../utils/classPdf"
-import InputCondition from "../InputCondition"
 import createDescription from "../../utils/createDescription"
+import TitleBasic from "../common/TitleBasic"
+import FormBasic from '../layout/FormBasic'
+import InputSubmit from "../common/InputSubmit"
+import OptionalInput from "../common/OptionalInput"
+import PricipalTitle from "../common/PrincipalTitle"
+import ButtonBasic from "../common/ButtonBasic"
+import SubtitleBasic from "../common/TitleBasic"
+import InputWithoutLabel from "../common/InputWithoutLabel"
 
 function PdfView() {
-  /* -- States -- */
+  
+  // States
   const [productsCount, setProductsCount] = useState([0])
   const [conditions, setConditions] = useState([])
-  // const [conditionsCount, setConditionsCount] = useState([0])
 
-  /* -- Handlers -- */
-
-  // Handle click in 'add new product'
-  function handleClick(){
+  // Handlers
+  function handleAddNewProduct(){
     const lastItem = productsCount[productsCount.length - 1]
     const newProductsCount = [...productsCount]
     newProductsCount.push(lastItem + 1)
     setProductsCount(newProductsCount)
   }
-
-  //Handle submit form
   async function handleSubmit(e){
     e.preventDefault()
 
@@ -106,34 +109,45 @@ function PdfView() {
     })
   }
 
-  /* -- Effects -- */
+  // Effects
   useEffect(()=>{
     fetch('http://localhost:3000/api/getSaleConditions').then((data)=> data.json()).then((data2)=>{setConditions(data2)})
   }, [])
 
   return (
-    <div className="principal_container">
-      <h1 style={{textAlign:'center', textDecoration: 'underline', marginTop: '45px', width: '100%', background: '#ff1858', padding: '10px', fontWeight: 900}}>Cotizador Vrintex</h1>
-      <form action="#" onSubmit={handleSubmit}>
-        <div><h2>Datos del cliente:</h2></div>
-        <Input labelText={'Nombre'}/>
-        <Input labelText={'Empresa'}/>
-        <Input labelText={'Telefono'} />
-        <Input labelText={'Obra'} />
-        <div><h2>Productos:</h2></div>
-        { productsCount.map((element)=>{return <InputsOneProduct key={element}/>}) }
-        <input className="add_product" onClick={handleClick} type="button" value="Añadir producto +"/>
-          <h2>Información adicional:</h2>            
-          <h3 style={{display: 'block'}}>Tiempo de entrega:</h3>
-          <input  style={{display: 'block'}} className="additional_info_input" type="text" placeholder="Tiempo de entrega"/>
-          <h3>Condiciones:</h3>
-          {
-            conditions.map((element)=>{
-              return <InputCondition key={element.id_conditions} defaultValue={element.condition}/>
+    <div>
+      <PricipalTitle text='Cotizador Vrintex'/>
+      <FormBasic handleSubmit={handleSubmit}>
+        <>
+          <TitleBasic text='Datos del cliente:'/>
+          <Input labelText={'Nombre'}/>
+          <Input labelText={'Empresa'}/>
+          <Input labelText={'Telefono'} />
+          <Input labelText={'Obra'} />
+
+          <TitleBasic text='Productos'/>
+          { 
+            productsCount.map((element)=>{
+              return <InputsOneProduct key={element}/>
             })
           }
-        <input style={{display: 'block'}} type="submit" className="send_button" value='Generar cotización'/>
-      </form>
+
+          <ButtonBasic text='Añadir producto +' onClick={handleAddNewProduct}/>
+          <TitleBasic text='Información adicional:'/>
+          <SubtitleBasic text='Tiempo de entrega:' />
+          <InputWithoutLabel placeholder='Tiempo de entrega'/>
+          <SubtitleBasic text='Condiciones' />
+
+
+          {
+            conditions.map((element)=>{
+              return <OptionalInput key={element.id_conditions} defaultValue={element.condition}/>
+            })
+          }
+
+          <InputSubmit text='Generar cotizacion' />
+        </>
+      </FormBasic>
 
     </div>
   )

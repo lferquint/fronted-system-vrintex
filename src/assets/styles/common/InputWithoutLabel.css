@@ -1,0 +1,9 @@
+.inputWithoutLabel  {
+  padding: 10px;
+  background: rgba(255,255,255,0.04);
+  border-block: none;
+  border: none;
+  color: white;
+  margin-bottom: 5px;
+  width: 100%;
+}
