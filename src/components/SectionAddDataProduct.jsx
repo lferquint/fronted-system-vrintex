@@ -3,6 +3,12 @@ import { useState } from "react"
 import { useEffect } from "react"
 import '../assets/styles/SecundaryData.css'
 import ModalSuccessMessage from "./ModalSuccessMessage"
+import PrincipalTitle from '../components/common/PrincipalTitle'
+import FormBasic from '../components/layout/FormBasic'
+import InputLabelLeft from "./common/InputLabelLeft"
+import InputSubmit from "./common/InputSubmit"
+import TitleBasic from "../components/common/TitleBasic"
+
 
 function SubmitInput({text='Enviar'}){
   return <input style={{cursor: 'pointer'}} type="submit" value={text} className="sDSendButton"/>
@@ -137,22 +143,27 @@ function SecundaryDataSection(){
   
 
   return (
-    <div className="principal_container">
-    <h1 style={{textAlign:'center', textDecoration: 'underline', marginTop: '45px', width: '100%', background: '#ff1858', padding: '10px', fontWeight: 900}}>Añadir información sobre productos</h1>
+    <div>
+      <PrincipalTitle text='Añadir informacion sobre productos'/>
 
       {
         success ? <ModalSuccessMessage/> : ''
       }
       
-      {refresh}
+      <TitleBasic text="Agregar tipo de producto"/>
+      <FormBasic handleSubmit={handleSubmit}>
+        <InputLabelLeft labelText="Nuevo tipo de producto"/>
+        <InputSubmit text='Añadir'/>
+      </FormBasic>
+
       <div className="secundaryData">
-        <div className="sDcontainerForm">
+        {/* <div className="sDcontainerForm">
           <h2>Agregar tipo de producto</h2>
           <form onSubmit={handleSubmit} style={{}} >
             <Input labelText="Nuevo tipo de producto" typeInput="text"/>
             <SubmitInput/>
           </form>
-        </div>
+        </div> */}
 
         <div className="sDcontainerForm">
           <h2>Agregar modelo</h2>

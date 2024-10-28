@@ -1,4 +1,4 @@
-import Input from "../common/InputsLabelLeft"
+import InputLabelLeft from "../common/InputLabelLeft"
 import InputsOneProduct from "../InputsOneProduct"
 import { useState, useEffect } from "react"
 import Data from "../../utils/classPdf"
@@ -120,10 +120,10 @@ function PdfView() {
       <FormBasic handleSubmit={handleSubmit}>
         <>
           <TitleBasic text='Datos del cliente:'/>
-          <Input labelText={'Nombre'}/>
-          <Input labelText={'Empresa'}/>
-          <Input labelText={'Telefono'} />
-          <Input labelText={'Obra'} />
+          <InputLabelLeft  labelText={'Nombre'}/>
+          <InputLabelLeft  labelText={'Empresa'}/>
+          <InputLabelLeft  labelText={'Telefono'} />
+          <InputLabelLeft  labelText={'Obra'} />
 
           <TitleBasic text='Productos'/>
           { 
