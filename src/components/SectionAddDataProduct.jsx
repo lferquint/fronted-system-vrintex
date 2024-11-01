@@ -1,4 +1,3 @@
-import Input from "./InputGeneral"
 import { useState } from "react"
 import { useEffect } from "react"
 import '../assets/styles/SecundaryData.css'
@@ -8,11 +7,7 @@ import FormBasic from '../components/layout/FormBasic'
 import InputLabelLeft from "./common/InputLabelLeft"
 import InputSubmit from "./common/InputSubmit"
 import TitleBasic from "../components/common/TitleBasic"
-
-
-function SubmitInput({text='Enviar'}){
-  return <input style={{cursor: 'pointer'}} type="submit" value={text} className="sDSendButton"/>
-}
+import SelectLabelLeft from "./common/SelectLabelLeft"
 
 function SecundaryDataSection(){
 
@@ -38,7 +33,7 @@ function SecundaryDataSection(){
     setTimeout(()=>{ setSuccess(false) }, 4000)
   }
 
-  function handleSubmit(e){
+  function handleSubmitTypeProduct(e){
     e.preventDefault()
     const array = Array.from(e.target).filter((element)=>element.type != 'submit')
     const values = array.map((element)=>element.value)
@@ -104,7 +99,6 @@ function SecundaryDataSection(){
 
   function handleSubmitColors(e){
     e.preventDefault()
-    console.log('Esto se está ejecutando????')
     const colorJson = JSON.stringify({colorName: e.target[0].value})
 
     fetch('http://localhost:3000/protected/addColor', {
@@ -129,6 +123,7 @@ function SecundaryDataSection(){
       isStock: values[4], 
       idProvider: values[5]
     }
+    console.log(objToSend)
     const objJson = JSON.stringify(objToSend)
     fetch('http://localhost:3000/protected/addProduct', {
       method: 'POST', 
@@ -151,126 +146,72 @@ function SecundaryDataSection(){
       }
       
       <TitleBasic text="Agregar tipo de producto"/>
-      <FormBasic handleSubmit={handleSubmit}>
+      <FormBasic handleSubmit={handleSubmitTypeProduct}>
         <InputLabelLeft labelText="Nuevo tipo de producto"/>
         <InputSubmit text='Añadir'/>
       </FormBasic>
 
-      <div className="secundaryData">
-        {/* <div className="sDcontainerForm">
-          <h2>Agregar tipo de producto</h2>
-          <form onSubmit={handleSubmit} style={{}} >
-            <Input labelText="Nuevo tipo de producto" typeInput="text"/>
-            <SubmitInput/>
-          </form>
-        </div> */}
+      <TitleBasic text="Agregar modelo"/>
+      <FormBasic handleSubmit={handleSubmitModel}>
+        <SelectLabelLeft 
+          labelText="Tipo de producto" 
+          options={typeProducts} 
+          objContentKey="type_product_name" 
+          objIdKey="id_type_product"
+        />
+        <InputLabelLeft labelText="Nombre del modelo"/>
+        <InputLabelLeft labelText="Descripcion"/>
+        <InputLabelLeft labelText="Unidades"/>
+        <InputSubmit text='Añadir'/>
+      </FormBasic>
 
-        <div className="sDcontainerForm">
-          <h2>Agregar modelo</h2>
-          <form onSubmit={handleSubmitModel} style={{}}>
-            <label htmlFor="typeProduc_input">
-              Tipo de producto
-            </label>
-            <select id="typeProduc_input">
-              {
-                typeProducts.map((typeProduct)=>{return <option value={typeProduct.id_type_product} key={typeProduct.id_type_product}>{typeProduct.type_product_name}</option>})
-              }
-            </select>
-            <Input labelText='Nombre del modelo' typeInput="text" />
-            <Input labelText='Descripción' typeInput="text" />
-            <Input labelText="Unidades" typeInput="text" ></Input>
-            <SubmitInput/>
-          </form>
-        </div>
+      <TitleBasic text="Agregar provedor"/>
+      <FormBasic handleSubmit={handleSubmitProvider}>
+        <InputLabelLeft labelText="Sitio web"/>
+        <InputLabelLeft labelText="Email"/>
+        <InputLabelLeft labelText="Telefono"/>
+        <InputLabelLeft labelText="Nombre de la compañia"/>
+        <InputSubmit text='Añadir'/>
+      </FormBasic>
 
-        <div className="sDcontainerForm">
-          <h2>Agregar provedor</h2>
-          <form onSubmit={handleSubmitProvider} style={{}}>
-                <Input labelText="Sitio web" typeInput="text"/>
-                <Input labelText="Telefono" typeInput="text"/>
-                <Input labelText="Email" typeInput="text"/>
-                <Input labelText="Nombre de la compañia" typeInput="text"/>
-                <SubmitInput/>
+      <TitleBasic text="Agregar color"/>
+      <FormBasic handleSubmit={handleSubmitColors}>
+        <InputLabelLeft labelText="Nuevo color"/>
+        <InputSubmit text='Añadir'/>
+      </FormBasic>
 
-          </form>
-        </div>
-
-        <div className="sDcontainerForm">
-          <h2>Agregar color</h2>
-          <form onSubmit={handleSubmitColors}>
-            <Input labelText="Nuevo color" typeInput="text"/>
-            <SubmitInput/>
-
-          </form>
-        </div>
-
-        <div className="sDcontainerForm">
-        <h2>Agregar producto</h2>
-          <form onSubmit={handleSubmitProduct} >
-
-            <div>
-              <label htmlFor="model_input">
-                Modelo
-              </label>
-              <select id="model_input">
-                {
-                  listModels.map((obj)=>{
-                    return <option key={obj.id_model} value={obj.id_model}> {obj.name_model} </option>
-                  })
-                }
-              </select>
-            </div>
-
-
-            
-            <div>
-              <label htmlFor="color_input">
-                Color
-              </label>
-              <select id="color_input">
-                  {
-                    listColors.map((obj)=>{
-                      return <option key={obj.id_color} value={obj.id_color}> {obj.color_name} </option> 
-                    })
-                  }
-              </select>
-            </div>
-
-
-
-            <Input labelText='Cantidad en stock' />
-            <Input labelText='Precio' />
-
-
-            <div>
-              <label htmlFor="isStock_input">
-                Material de stock
-              </label>
-              <select id="isStock_input">
-                <option value="true">Sí</option>
-                <option value="false">No</option>
-              </select>
-            </div>
-            
-            <div>
-              <label htmlFor="provider_input">
-                Provedor
-              </label>
-              <select id="provider_input">
-                {
-                  listProviders.map((obj)=>{
-                    return <option key={obj.id_provider} value={obj.id_provider}> {obj.company_name} </option>
-                  })
-                }
-              </select>
-            </div>
-
-            <SubmitInput/>
-
-
-          </form>
-        </div>
-      </div>
+      <TitleBasic text='Agregar Producto' />
+      <FormBasic handleSubmit={handleSubmitProduct}>
+        <SelectLabelLeft 
+          labelText="Modelo" 
+          options={listModels} 
+          objContentKey="name_model" 
+          objIdKey="id_model"
+          optionValueIsId={true}
+        />
+        <SelectLabelLeft 
+          labelText="Color" 
+          options={listColors} 
+          objContentKey="color_name" 
+          objIdKey="id_color"
+          optionValueIsId={true}
+        />
+        <InputLabelLeft labelText="Cantidad en stock" />
+        <InputLabelLeft labelText="Precio" />
+        <SelectLabelLeft 
+          labelText="Material de Stock" 
+          options={[{content: 'true', id: '0'}, {content: 'false', id: '1'}]} 
+        />
+        <SelectLabelLeft 
+          labelText="Provedor" 
+          options={listProviders} 
+          objContentKey="company_name"
+          objIdKey="id_provider"
+          optionValueIsId={true}
+        />
+        <InputSubmit text='Añadir producto'/>
+      </FormBasic>
+      
     </div>
     
   )

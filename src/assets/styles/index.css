@@ -3,6 +3,9 @@
     --principal-color: #ff1858;
     --font-color-theme-dark: white;
     --font-family-general: sans-serif;
+    --min-width-labels: 180px;
+    --max-width-labels: 200px;
+    --secundary-color: #7357b4;
 }
 *{
     margin: 0;

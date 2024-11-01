@@ -2,7 +2,7 @@ import { useState } from "react"
 import '../../assets/styles/LoginView.css'
 import PricipalTitle from "../common/PrincipalTitle"
 import FormBasic from "../layout/FormBasic"
-import InputLabelLeft from "../common/InputsLabelLeft"
+import InputLabelLeft from "../common/InputLabelLeft"
 import InputSubmit from "../common/InputSubmit"
 
 function LoginView(){

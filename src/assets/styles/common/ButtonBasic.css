@@ -1,3 +1,9 @@
 .buttonBasic{
-  background: white;
+  display: block;
+  padding: 7px 20px;
+  background: var(--secundary-color);
+  color: white;
+  border-block: none;
+  border: none;
+  cursor: pointer;
 }

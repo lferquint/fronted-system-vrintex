@@ -1,0 +1,15 @@
+.SelectLabelLeft label{
+    display: inline-block;
+    min-width: var(--min-width-labels);
+    max-width: var(--max-width-labels);
+}
+.SelectLabelLeft select{
+    padding: 5px;
+    min-width: 300px;
+    border-left: var(--principal-color) 10px solid;
+    margin: 5px 0;
+    background: rgba(255,255,255,0.04);
+    border-block: none;
+    border-right: none;
+    color: white;
+}

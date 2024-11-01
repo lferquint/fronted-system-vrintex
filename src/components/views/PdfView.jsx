@@ -9,7 +9,7 @@ import InputSubmit from "../common/InputSubmit"
 import OptionalInput from "../common/OptionalInput"
 import PricipalTitle from "../common/PrincipalTitle"
 import ButtonBasic from "../common/ButtonBasic"
-import SubtitleBasic from "../common/TitleBasic"
+import SubtitleBasic from "../common/SubtitleBasic"
 import InputWithoutLabel from "../common/InputWithoutLabel"
 
 function PdfView() {
@@ -133,10 +133,11 @@ function PdfView() {
           }
 
           <ButtonBasic text='Añadir producto +' onClick={handleAddNewProduct}/>
-          <TitleBasic text='Información adicional:'/>
+
+          <TitleBasic text='Información adicional'/>
           <SubtitleBasic text='Tiempo de entrega:' />
           <InputWithoutLabel placeholder='Tiempo de entrega'/>
-          <SubtitleBasic text='Condiciones' />
+          <SubtitleBasic text='Condiciones:' />
 
 
           {
