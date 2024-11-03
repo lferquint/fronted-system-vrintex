@@ -1,4 +1,4 @@
-import '../assets/styles/Header.css'
+import '../../assets/styles/layout/Header.css'
 function Header({keysPages, setPageFocus}){
   function handleNavigate(newPage){
     setPageFocus(newPage)

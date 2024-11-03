@@ -1,13 +1,12 @@
 import { useState } from "react"
 import { useEffect } from "react"
-import '../assets/styles/SecundaryData.css'
-import ModalSuccessMessage from "./ModalSuccessMessage"
-import PrincipalTitle from '../components/common/PrincipalTitle'
-import FormBasic from '../components/layout/FormBasic'
-import InputLabelLeft from "./common/InputLabelLeft"
-import InputSubmit from "./common/InputSubmit"
-import TitleBasic from "../components/common/TitleBasic"
-import SelectLabelLeft from "./common/SelectLabelLeft"
+import ModalSuccessMessage from "../common/ModalSuccessMessage"
+import PrincipalTitle from '../common/PrincipalTitle'
+import FormBasic from '../common/FormBasic'
+import InputLabelLeft from "../common/InputLabelLeft"
+import InputSubmit from "../common/InputSubmit"
+import TitleBasic from "../common/TitleBasic"
+import SelectLabelLeft from "../common/SelectLabelLeft"
 
 function SecundaryDataSection(){
 

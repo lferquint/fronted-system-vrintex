@@ -1,5 +1,7 @@
 .buttonBasic{
-  display: block;
+  display: inline-block;
+  margin-right: 5px;
+
   padding: 7px 20px;
   background: var(--secundary-color);
   color: white;

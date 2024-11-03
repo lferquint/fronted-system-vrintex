@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef} from "react"
-import '../assets/styles/InputsOneProduct.css'
+import '../../assets/styles/common/InputsOneProduct.css'
 
 function InputsOneProduct(){
 

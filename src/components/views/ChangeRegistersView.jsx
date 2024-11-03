@@ -1,8 +1,10 @@
 import { useEffect } from "react"
 import { useState } from "react"
-import SectionAddDataProduct from "../SectionAddDataProduct"
-import SectionModifyDataProducts from "../SectionModifyDataProduct"
-import SectionDeleteRegisters from "../SectionDeleteRegisters"
+import SectionAddDataProduct from "../layout/SectionAddDataProduct"
+import SectionModifyDataProducts from "../layout/SectionModifyDataProduct"
+import SectionDeleteRegisters from "../layout/SectionDeleteRegisters"
+import NavBar from "../layout/NavBar"
+import TitleBasic from "../common/TitleBasic"
 
 function ChangeRegistersView(){
   const [isLogged, setIsLogged] = useState(false)
@@ -32,12 +34,9 @@ function ChangeRegistersView(){
   }
   return (
     <>
-      <div>
-        <ul>
-          {keys.map((key)=>{ return <li key={key}> <a  style={{color: 'white'}} href="#" onClick={()=>{ handleClick(key) }}> {key} </a></li> })}
-        </ul>
-      </div>
-      <div>
+      <TitleBasic text="Lista de funciones:"/>
+      <NavBar elements={keys} onClick={handleClick}/>
+      <div style={{marginTop: '30px'}}>
         { pages[pageFocus] }
       </div> 
     </>

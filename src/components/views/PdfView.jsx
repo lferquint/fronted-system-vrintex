@@ -1,10 +1,10 @@
 import InputLabelLeft from "../common/InputLabelLeft"
-import InputsOneProduct from "../InputsOneProduct"
+import InputsOneProduct from "../common/InputsOneProduct"
 import { useState, useEffect } from "react"
 import Data from "../../utils/classPdf"
 import createDescription from "../../utils/createDescription"
 import TitleBasic from "../common/TitleBasic"
-import FormBasic from '../layout/FormBasic'
+import FormBasic from '../common/FormBasic'
 import InputSubmit from "../common/InputSubmit"
 import OptionalInput from "../common/OptionalInput"
 import PricipalTitle from "../common/PrincipalTitle"

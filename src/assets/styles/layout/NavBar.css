@@ -1,0 +1,15 @@
+.NavBar{
+    width: fit-content;
+}
+.NavBar ul{
+    width: fit-content;
+}   
+.NavBar ul li a{
+    color: white;
+    padding: 10px;
+    display: block;
+    transition: 0.2s;
+}
+.NavBar ul li a:hover{
+    background: rgba(0,0,0,0.4);
+}

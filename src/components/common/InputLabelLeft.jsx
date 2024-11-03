@@ -1,6 +1,11 @@
 import '../../assets/styles/common/InputLabelLeft.css'
+import { useState } from 'react'
 
-function InputLabelLeft({ labelText='input', typeInput='text'}){
+function InputLabelLeft({ labelText='input', typeInput='text', disabled=false, content}){
+    const [value, setValue] = useState(content)
+    function handleChange(e){
+        setValue(e.target.value)
+    }
     return(
         //container input
         <div className='container_input_label_left'>
@@ -8,7 +13,17 @@ function InputLabelLeft({ labelText='input', typeInput='text'}){
             <label htmlFor={labelText}>{labelText}</label>
 
             {/* input */}
-            <input className='input_label_left' required type={typeInput} name={labelText} id={labelText} placeholder={labelText}/>
+            <input 
+                onChange={handleChange}
+                style={ disabled ? {color: 'gray'}: {color: 'white'}} 
+                value={value} 
+                disabled={disabled} 
+                className='input_label_left' 
+                required 
+                type={typeInput} 
+                name={labelText} 
+                id={labelText} 
+                placeholder={labelText}/>
         </div>
     )
 

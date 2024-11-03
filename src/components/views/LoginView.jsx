@@ -1,7 +1,6 @@
 import { useState } from "react"
-import '../../assets/styles/LoginView.css'
 import PricipalTitle from "../common/PrincipalTitle"
-import FormBasic from "../layout/FormBasic"
+import FormBasic from "../common/FormBasic"
 import InputLabelLeft from "../common/InputLabelLeft"
 import InputSubmit from "../common/InputSubmit"
 

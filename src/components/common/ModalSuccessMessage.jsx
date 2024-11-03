@@ -1,4 +1,4 @@
-import '../assets/styles/ModalSuccessMessage.css'
+import '../../assets/styles/common/ModalSuccessMessage.css'
 import { useState } from 'react'
 function ModalSuccessMessage(){
   const [opacity, setOpacity] = useState(0)

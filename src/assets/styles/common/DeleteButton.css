@@ -1,10 +1,10 @@
-.InputSubmit{
-  display: inline-block;
+.DeleteButton{
   margin-right: 5px;
   padding: 7px 20px;
-  background: var(--secundary-color);
+  background: rgb(214, 30, 30);
   color: white;
   border-block: none;
   border: none;
   cursor: pointer;
+  float: right;
 }
