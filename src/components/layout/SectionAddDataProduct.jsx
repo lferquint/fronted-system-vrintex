@@ -157,6 +157,7 @@ function SecundaryDataSection(){
           options={typeProducts} 
           objContentKey="type_product_name" 
           objIdKey="id_type_product"
+          optionValueIsId={true}
         />
         <InputLabelLeft labelText="Nombre del modelo"/>
         <InputLabelLeft labelText="Descripcion"/>
