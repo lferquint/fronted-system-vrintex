@@ -11,6 +11,8 @@ function SectionDeleteRegisters(){
   const [listColors, setListColors] = useState([])
   const [success, setSuccess] = useState(false)
   const [listTypeProduct, setListTypeProduct] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const [listModels, setListModels] = useState([])
 
   function handleTimeSuccessMessage(){
     setTimeout(()=>{ setSuccess(false) }, 4000)
@@ -23,15 +25,27 @@ function SectionDeleteRegisters(){
     fetch(`http://localhost:3000/protected/deleteColor/${values[0]}`, {
       method: 'POST',
       credentials: 'include'
-    }).then(()=>{ setSuccess(true); handleTimeSuccessMessage() })
+    }).then(()=>{ setSuccess(true); handleTimeSuccessMessage(); setRefresh(!refresh) })
   }
   function handleDeleteTypeProduct(e){
     e.preventDefault()
     const array = Array.from(e.target)
     array.pop()
     const values = array.map((input)=> input.value)
-    console.log(values)
-    // fetch('http://localhost:3000/protected/')
+    fetch(`http://localhost:3000/protected/deleteTypeProduct/${values[0]}`, {
+      method: 'POST',
+      credentials: 'include'
+    }).then(()=>{ setSuccess(true); handleTimeSuccessMessage(); setRefresh(!refresh) })
+  }
+  function handleDeleteModel(e){
+    e.preventDefault()
+    const array = Array.from(e.target)
+    array.pop()
+    const values = array.map((input)=> input.value)
+    fetch(`http://localhost:3000/protected/deleteModel/${values[0]}`, {
+      method: 'POST',
+      credentials: 'include'
+    }).then(()=>{ setSuccess(true); handleTimeSuccessMessage(); setRefresh(!refresh) })
   }
 
   useEffect(()=>{
@@ -40,7 +54,10 @@ function SectionDeleteRegisters(){
     .then((data)=>{ setListColors(data) })
     fetch('http://localhost:3000/api/getTypeProduct')
     .then((res)=>res.json()).then((data)=>{ setListTypeProduct(data) })
-  }, [])
+    fetch('http://localhost:3000/api/getAllModels')
+    .then((res)=>res.json())
+    .then((data)=>{setListModels(data)})
+  }, [refresh])
 
   return (
     <>
@@ -64,11 +81,24 @@ function SectionDeleteRegisters(){
         <TitleBasic text="Borrar tipo de producto"/>
         <FormBasic handleSubmit={handleDeleteTypeProduct}>
           <SelectLabelLeft 
-            labelText='Seleccionar color' 
+            labelText='Seleccionar tipo de producto' 
             options={ listTypeProduct }
             optionValueIsId={true}  
             objContentKey="type_product_name"
             objIdKey="id_type_product"
+          />
+          <InputSubmit text="Borrar"/>
+        </FormBasic>
+      </SectionGeneric>
+      <SectionGeneric>
+        <TitleBasic text="Borrar Modelo"/>
+        <FormBasic handleSubmit={handleDeleteModel}>
+          <SelectLabelLeft 
+            labelText='Seleccionar modelo' 
+            options={ listModels }
+            optionValueIsId={true}
+            objContentKey="name_model"
+            objIdKey="id_model"
           />
           <InputSubmit text="Borrar"/>
         </FormBasic>
