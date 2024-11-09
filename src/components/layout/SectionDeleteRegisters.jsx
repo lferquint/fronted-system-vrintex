@@ -6,6 +6,7 @@ import InputSubmit from "../common/InputSubmit"
 import TitleBasic from "../common/TitleBasic"
 import SelectLabelLeft from "../common/SelectLabelLeft"
 import ModalSuccessMessage from "../common/ModalSuccessMessage"
+import PrincipalTitle from "../common/PrincipalTitle"
 
 function SectionDeleteRegisters(){
   const [listColors, setListColors] = useState([])
@@ -13,6 +14,7 @@ function SectionDeleteRegisters(){
   const [listTypeProduct, setListTypeProduct] = useState([])
   const [refresh, setRefresh] = useState(false)
   const [listModels, setListModels] = useState([])
+  const [listProviders, setListProviders] = useState([])
 
   function handleTimeSuccessMessage(){
     setTimeout(()=>{ setSuccess(false) }, 4000)
@@ -47,16 +49,34 @@ function SectionDeleteRegisters(){
       credentials: 'include'
     }).then(()=>{ setSuccess(true); handleTimeSuccessMessage(); setRefresh(!refresh) })
   }
+  function handleDeleteProvider(e){
+    e.preventDefault()
+    const array = Array.from(e.target)
+    array.pop()
+    const values = array.map((input)=> input.value)
+    fetch(`http://localhost:3000/protected/deleteProvider/${values[0]}`, {
+      method: 'POST',
+      credentials: 'include'
+    }).then(()=>{ setSuccess(true); handleTimeSuccessMessage(); setRefresh(!refresh) })
+  }
 
   useEffect(()=>{
+
     fetch('http://localhost:3000/api/getAllColors')
     .then((res)=>res.json())
     .then((data)=>{ setListColors(data) })
+
     fetch('http://localhost:3000/api/getTypeProduct')
     .then((res)=>res.json()).then((data)=>{ setListTypeProduct(data) })
+
     fetch('http://localhost:3000/api/getAllModels')
     .then((res)=>res.json())
     .then((data)=>{setListModels(data)})
+
+    fetch('http://localhost:3000/api/getAllProviders')
+    .then((res)=> res.json())
+    .then((data)=>{ setListProviders(data) })
+
   }, [refresh])
 
   return (
@@ -64,6 +84,7 @@ function SectionDeleteRegisters(){
       {
         success ? <ModalSuccessMessage/> : ''
       }
+      <PrincipalTitle text="Borrar registros"/>
       <SectionGeneric>
         <TitleBasic text="Borrar color"/>
         <FormBasic handleSubmit={handleDeleteColor}>
@@ -99,6 +120,19 @@ function SectionDeleteRegisters(){
             optionValueIsId={true}
             objContentKey="name_model"
             objIdKey="id_model"
+          />
+          <InputSubmit text="Borrar"/>
+        </FormBasic>
+      </SectionGeneric>    
+      <SectionGeneric>
+        <TitleBasic text="Borrar proveedor"/>
+        <FormBasic handleSubmit={handleDeleteProvider}>
+          <SelectLabelLeft 
+            labelText='Seleccionar proveedor' 
+            options={ listProviders }
+            optionValueIsId={true}
+            objContentKey="company_name"
+            objIdKey="id_provider"
           />
           <InputSubmit text="Borrar"/>
         </FormBasic>
