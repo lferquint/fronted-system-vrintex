@@ -13,7 +13,7 @@ function ChangeRegistersView(){
     setPageFocus(newPage)
   }
   const pages = {
-    Agregar_informacion_productos: <SectionAddDataProduct/>,
+    Agregar_informacion: <SectionAddDataProduct/>,
     Modificar_informacion_productos: <SectionModifyDataProducts/>,
     Borrar_registros: <SectionDeleteRegisters/>
   }
