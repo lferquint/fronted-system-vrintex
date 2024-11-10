@@ -15,6 +15,7 @@ function SectionDeleteRegisters(){
   const [refresh, setRefresh] = useState(false)
   const [listModels, setListModels] = useState([])
   const [listProviders, setListProviders] = useState([])
+  const [listConditions, setListConditions] = useState([])
 
   function handleTimeSuccessMessage(){
     setTimeout(()=>{ setSuccess(false) }, 4000)
@@ -59,6 +60,17 @@ function SectionDeleteRegisters(){
       credentials: 'include'
     }).then(()=>{ setSuccess(true); handleTimeSuccessMessage(); setRefresh(!refresh) })
   }
+  function handleDeleteCondition(e){
+    e.preventDefault()
+    const array = Array.from(e.target)
+    array.pop()
+    console.log(array)
+    const values = array.map((input)=> input.value)
+    fetch(`http://localhost:3000/protected/deleteCondition/${values[0]}`, {
+      method: 'POST',
+      credentials: 'include'
+    }).then(()=>{ setSuccess(true); handleTimeSuccessMessage(); setRefresh(!refresh) })
+  }
 
   useEffect(()=>{
 
@@ -75,7 +87,11 @@ function SectionDeleteRegisters(){
 
     fetch('http://localhost:3000/api/getAllProviders')
     .then((res)=> res.json())
-    .then((data)=>{ setListProviders(data) })
+    .then((data)=>{ setListProviders(data)})
+
+    fetch('http://localhost:3000/api/getSaleConditions')
+    .then((res)=>res.json())
+    .then((data)=>{setListConditions(data)})
 
   }, [refresh])
 
@@ -133,6 +149,19 @@ function SectionDeleteRegisters(){
             optionValueIsId={true}
             objContentKey="company_name"
             objIdKey="id_provider"
+          />
+          <InputSubmit text="Borrar"/>
+        </FormBasic>
+      </SectionGeneric>
+      <SectionGeneric>
+        <TitleBasic text="Borrar condicion"/>
+        <FormBasic handleSubmit={handleDeleteCondition}>
+          <SelectLabelLeft 
+            labelText='Seleccionar condicion' 
+            options={ listConditions }
+            optionValueIsId={true}
+            objContentKey="condition"
+            objIdKey="id_conditions"
           />
           <InputSubmit text="Borrar"/>
         </FormBasic>
