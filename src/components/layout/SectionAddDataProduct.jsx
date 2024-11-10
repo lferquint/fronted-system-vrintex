@@ -110,6 +110,21 @@ function SecundaryDataSection(){
     }).then(()=>{setRefresh(!refresh); setSuccess(true); handleTimeSuccessMessage()})
   }
 
+  function handleSubmitCondition(e){
+    e.preventDefault()
+    const conditionJson = JSON.stringify({condition: e.target[0].value})
+    console.log(conditionJson)
+
+    fetch('http://localhost:3000/protected/addCondition', {
+      method: 'POST', 
+      credentials: 'include',
+      body: conditionJson,
+      headers: {
+        'Content-Type': 'application/json'
+      } 
+    }).then(()=>{setRefresh(!refresh); setSuccess(true); handleTimeSuccessMessage()})
+  }
+
   function handleSubmitProduct(e){
     e.preventDefault()
     const inputs = Array.from(e.target).filter((element)=>element.type != 'submit') 
@@ -177,6 +192,12 @@ function SecundaryDataSection(){
       <TitleBasic text="Agregar color"/>
       <FormBasic handleSubmit={handleSubmitColors}>
         <InputLabelLeft labelText="Nuevo color"/>
+        <InputSubmit text='Añadir'/>
+      </FormBasic>
+
+      <TitleBasic text="Agregar condicion"/>
+      <FormBasic handleSubmit={handleSubmitCondition}>
+        <InputLabelLeft labelText="Nueva condicion"/>
         <InputSubmit text='Añadir'/>
       </FormBasic>
 
