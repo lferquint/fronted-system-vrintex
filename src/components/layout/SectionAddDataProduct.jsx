@@ -79,11 +79,12 @@ function SecundaryDataSection(){
 
     const objData = {
       website: values[0], 
-      tel: values[1], 
-      email: values[2], 
+      tel: values[2], 
+      email: values[1], 
       companyName: values[3]
     }
     const objJson = JSON.stringify(objData)
+    console.log(objJson)
     fetch('http://localhost:3000/protected/addProvider', {
       method:'POST',
       credentials: 'include',
