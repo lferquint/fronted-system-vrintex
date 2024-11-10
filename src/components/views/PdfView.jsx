@@ -1,6 +1,6 @@
 import InputLabelLeft from "../common/InputLabelLeft"
 import InputsOneProduct from "../common/InputsOneProduct"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Data from "../../utils/classPdf"
 import createDescription from "../../utils/createDescription"
 import TitleBasic from "../common/TitleBasic"
@@ -17,6 +17,8 @@ function PdfView() {
   // States
   const [productsCount, setProductsCount] = useState([0])
   const [conditions, setConditions] = useState([])
+  const buttonRef = useRef(null)
+  const [url, setUrl] = useState('')
 
   // Handlers
   function handleAddNewProduct(){
@@ -98,7 +100,6 @@ function PdfView() {
     // Create obj to send to the API pdf 
     const objToSend = new Data( {company: values[1], nameClient: values[0], place: values[3], tel: values[2]}, finalArray, values[values.length - 4], conditions , 'Elias Moreno')
     // Send data
-    console.log(objToSend)
 
     fetch('http://localhost:3000/generatePdf', {
       method: 'post', 
@@ -107,6 +108,10 @@ function PdfView() {
         'Content-Type': 'application/json'
       }
     })
+    .then((res)=>res.blob())
+    .then((data)=>{setUrl(URL.createObjectURL(data))})
+    // .then((data)=>{setUrl(URL.createObjectURL(data))})
+    .then(()=>{buttonRef.current.click()})
   }
 
   // Effects
@@ -136,7 +141,7 @@ function PdfView() {
 
           <TitleBasic text='Información adicional'/>
           <SubtitleBasic text='Tiempo de entrega:' />
-          <InputWithoutLabel placeholder='Tiempo de entrega'/>
+          <InputWithoutLabel id={1} placeholder='Tiempo de entrega'/>
           <SubtitleBasic text='Condiciones:' />
 
 
@@ -149,7 +154,7 @@ function PdfView() {
           <InputSubmit text='Generar cotizacion' />
         </>
       </FormBasic>
-
+      <a href={url} download={url} ref={buttonRef}></a>
     </div>
   )
 }
