@@ -98,7 +98,7 @@ function PdfView() {
     })
 
     // Create obj to send to the API pdf 
-    const objToSend = new Data( {company: values[1], nameClient: values[0], place: values[3], tel: values[2]}, finalArray, values[values.length - 4], conditions , 'Elias Moreno')
+    const objToSend = new Data( {company: values[1], nameClient: values[0], place: values[3], tel: values[2]}, finalArray, values[values.length - 2], conditions , 'Elias Moreno')
     // Send data
 
     fetch('http://localhost:3000/generatePdf', {
@@ -111,7 +111,7 @@ function PdfView() {
     .then((res)=>res.blob())
     .then((data)=>{setUrl(URL.createObjectURL(data))})
     // .then((data)=>{setUrl(URL.createObjectURL(data))})
-    .then(()=>{buttonRef.current.click()})
+    .then(()=>{ setTimeout(()=>{ buttonRef.current.click() }, 100) })
   }
 
   // Effects
@@ -154,7 +154,7 @@ function PdfView() {
           <InputSubmit text='Generar cotizacion' />
         </>
       </FormBasic>
-      <a href={url} download={url} ref={buttonRef}></a>
+      <a href={url} download='Cotizacion' ref={buttonRef}></a>
     </div>
   )
 }
