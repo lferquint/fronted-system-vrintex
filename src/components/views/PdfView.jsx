@@ -85,7 +85,6 @@ function PdfView() {
 
     //Array with the same structure to class Data
     let finalArray = arrayWithProducts.map((array)=>{
-      createDescription(array[5], [array[2], 'blue', 'green'])
       return { 
         nameProduct: array[0], 
         model: array[1], 
@@ -98,7 +97,7 @@ function PdfView() {
     })
 
     // Create obj to send to the API pdf 
-    const objToSend = new Data( {company: values[1], nameClient: values[0], place: values[3], tel: values[2]}, finalArray, values[values.length - 2], conditions , 'Elias Moreno')
+    const objToSend = new Data( {company: values[1], nameClient: values[0], place: values[3], tel: values[2]}, finalArray, values[values.length - 4], conditions , 'Elias Moreno')
     // Send data
 
     fetch('http://localhost:3000/generatePdf', {

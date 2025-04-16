@@ -1,9 +1,10 @@
 function createDescription(description, color){
+  console.log("Que acaso esto no se ejecuta nunca?")
   let string
-  if(typeof color === 'string'){
+  if(color.length === 1){
     string = `${description}. Color: ${color}`    
     return string
-  }else if(typeof color === 'object'){
+  }else if(color.length > 1){
     let colors = '';
     color.forEach((e, i)=>{
         // console.log(i, color.length)
