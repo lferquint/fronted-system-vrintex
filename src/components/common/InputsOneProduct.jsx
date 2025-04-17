@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef} from "react"
 import '../../assets/styles/common/InputsOneProduct.css'
 
-function InputsOneProduct(){
+function InputsOneProduct({id, setProductsCount, productsCount}){
 
 /* -- States -- */
 
@@ -47,6 +47,18 @@ function InputsOneProduct(){
     function handleChangePrice(e){
         setPrice(e.target.value)
     }
+    // On change value of input price
+    function handleSelectColor(e){
+        if(e.target.value == 'No importa'){
+            setPrice('')
+        }
+        setColorSelected(e.target.value)
+    }
+    // On change value of input price
+    function handleDelete(){
+        let newProductsCount = productsCount.filter((element)=> element != id)
+        setProductsCount(newProductsCount)
+    }
 
 /* -- Effects -- */
 
@@ -62,13 +74,13 @@ function InputsOneProduct(){
                 productSelected && fetch(`http://localhost:3000/api/getModels/${productSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setBrands(data2); setBrandSelected(data2[0].id_model); prevBrand.current = data2[0].id_model })
             }
             if( brandSelected && !colorSelected){
-                brandSelected && fetch(`http://localhost:3000/api/getColorsProduct/${brandSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setColors(data2); setColorSelected(data2[0].color_name); prevColor.current = data2[0].color_name })
+                brandSelected && fetch(`http://localhost:3000/api/getColorsProduct/${brandSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setColors(data2); /* setColorSelected(data2[0].id_color); */ prevColor.current = data2[0].color_name })
             }
             if( brandSelected && colorSelected){
                 fetch(`http://localhost:3000/api/infoAboutProduct/${brandSelected}/${colorSelected}`)
                 .then(data => data.json())
                 .then(data2 =>{ 
-                    if(data2[0].price){setMissingInformation(data2); setPrice(parseFloat(data2[0].price)) }
+                    if(data2[0].price){setMissingInformation(data2); /* setPrice(parseFloat(data2[0].price)) */ }
                 })
                 setFirstRender(true) 
             }
@@ -84,23 +96,27 @@ function InputsOneProduct(){
     }, [productSelected, firstRender])
     useEffect(()=>{
         if(firstRender){
-            fetch(`http://localhost:3000/api/getColorsProduct/${brandSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setColors(data2); setColorSelected(data2[0].color_name); })
+            fetch(`http://localhost:3000/api/getColorsProduct/${brandSelected}`).then((data)=>{return data.json()}).then((data2)=>{ setColors(data2); setColorSelected(data2[0].id_color); })
             
         }
     }, [brandSelected, firstRender])
 
     useEffect(()=>{
         if(firstRender){
-            if(brandSelected != prevBrand.current && colorSelected != prevColor.current){
-                fetch(`http://localhost:3000/api/infoAboutProduct/${brandSelected}/${colorSelected}`).then(data => data.json()).then(data2 =>{ 
-                    if(data2[0].price){
-                        setMissingInformation(data2)
+            fetch(`http://localhost:3000/api/infoAboutProduct/${brandSelected}/${colorSelected}`).then(data => data.json()).then(data2 =>{ 
+                console.log(data2[0])
+                if(data2[0].price){
+                    setMissingInformation(data2)
+                    console.log(colorSelected)
+                    if (colorSelected === "A elegir") {
+                        setPrice('')
+                    } else {
                         setPrice(data2[0].price)
-                    } 
-                })
-                prevBrand.current = brandSelected
-                prevColor.current = colorSelected
-            }
+                    }
+                } 
+            })
+            prevBrand.current = brandSelected
+            prevColor.current = colorSelected
         }
     }, [brandSelected, colorSelected, firstRender])
 
@@ -126,7 +142,7 @@ function InputsOneProduct(){
 
             <div className="inputContainer">
                 Color:
-                <select name="ColorProduct">
+                <select name="ColorProduct" onChange={handleSelectColor}>
                     {
                         colors && colors.map((objColor)=>{ return <option key={objColor.id_color} value={objColor.id_color}> {objColor.color_name} </option>})
                     }
@@ -147,7 +163,7 @@ function InputsOneProduct(){
 
             <input type="hidden" name="units" value={missingInformation && missingInformation[0].units}/>
             <div className="inputContainer">
-                <input className="delete_product" type="button" value="Borrar producto"/>
+                <input className="delete_product" type="button" value="Borrar producto" onClick={handleDelete}/>
             </div>
 
         </div>

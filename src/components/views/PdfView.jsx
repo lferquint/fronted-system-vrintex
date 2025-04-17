@@ -33,6 +33,8 @@ function PdfView() {
     // list nodes to array
     const a = Array.from(e.target)
 
+    console.log(a)
+
     // filter only important inputs
     const inputs = a.filter((element)=>{if(element.type != 'button' && element.type != 'submit' && element.className != 'condition'){return element.value}})
 
@@ -49,7 +51,6 @@ function PdfView() {
     const special = await fetch(`http://localhost:3000/api/getColorsInStock/${idModel}`)
     const decode = await special.json()
     const arrayWithColors = decode.map((obj)=>obj.color_name)
-    console.log(arrayWithColors)
     const values = inputs.map((element)=>{
       if (element.type === 'select-one'){
         if(element[element.selectedIndex].text === 'A elegir'){
@@ -123,32 +124,40 @@ function PdfView() {
       <PricipalTitle text='Cotizador Vrintex'/>
       <FormBasic handleSubmit={handleSubmit}>
         <>
-          <TitleBasic text='Datos del cliente:'/>
-          <InputLabelLeft  labelText={'Nombre'}/>
-          <InputLabelLeft  labelText={'Empresa'}/>
-          <InputLabelLeft  labelText={'Telefono'} />
-          <InputLabelLeft  labelText={'Obra'} />
-
-          <TitleBasic text='Productos'/>
-          { 
-            productsCount.map((element)=>{
-              return <InputsOneProduct key={element}/>
-            })
-          }
-
-          <ButtonBasic text='Añadir producto +' onClick={handleAddNewProduct}/>
-
-          <TitleBasic text='Información adicional'/>
-          <SubtitleBasic text='Tiempo de entrega:' />
-          <InputWithoutLabel id={1} placeholder='Tiempo de entrega'/>
-          <SubtitleBasic text='Condiciones:' />
+          <div className="SectionGeneric">
+            <TitleBasic text='Datos del cliente:'/>
+            <InputLabelLeft  labelText={'Nombre'}/>
+            <InputLabelLeft  labelText={'Empresa'}/>
+            <InputLabelLeft  labelText={'Telefono'} />
+            <InputLabelLeft  labelText={'Obra'} />
+          </div>
 
 
-          {
-            conditions.map((element)=>{
-              return <OptionalInput key={element.id_conditions} defaultValue={element.condition}/>
-            })
-          }
+          <div className="SectionGeneric">
+            <TitleBasic text='Productos'/>
+            { 
+              productsCount.map((element)=>{
+                return <InputsOneProduct key={element} id={element} setProductsCount={setProductsCount} productsCount={productsCount}/>
+              })
+            }
+
+            <ButtonBasic text='Añadir producto +' onClick={handleAddNewProduct}/>
+          </div>
+
+          <div className="SectionGeneric">
+            <TitleBasic text='Información adicional'/>
+            <SubtitleBasic text='Tiempo de entrega:' />
+            <InputWithoutLabel id={1} placeholder='Tiempo de entrega'/>
+            <SubtitleBasic text='Condiciones:' />
+
+
+            {
+              conditions.map((element)=>{
+                return <OptionalInput key={element.id_conditions} defaultValue={element.condition}/>
+              })
+            }
+          </div>
+
 
           <InputSubmit text='Generar cotizacion' />
         </>
